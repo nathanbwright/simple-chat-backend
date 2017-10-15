@@ -8,7 +8,7 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def speak(data)
-    ActionCable.server.broadcast "room_channel", message: "#{@username}: #{data["message"]}"
+    MessageBroadcastJob.perform_later(data["message"], @username)
   end
 
   def join_room(data)
